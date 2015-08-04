@@ -10,20 +10,26 @@ import com.ds.optimizer.DataTypeMemoryOptimizer;
 import com.ds.optimizer.DataTypeOptimizer;
 import com.ds.util.OptimizerHelper;
 
-public class ArrayListOptimizer implements DataTypeOptimizer {
+public class ArrayListOptimizer implements DataTypeOptimizer
+{
 	private Map<String, Object> ARRAY_LIST_POOL = new ConcurrentHashMap<String, Object>();
 	private DataTypeMemoryOptimizer memoryOptimizer;
 
-	public Object optimize(Field field, Object value, Context context) {
+	public Object optimize(Field field, Object value, Context context)
+	{
 		ArrayList<?> list = (ArrayList<?>) value;
 		int size = list.size();
-		if (0 == size) {
+		if (0 == size)
+		{
 			// if no data, return the cached empty list shared list
 			return getCachedArrayList(field, list);
-		} else {
+		}
+		else
+		{
 			// remote unused array elements
 			list.trimToSize();
-			for (int i = 0; i < size; i++) {
+			for (int i = 0; i < size; i++)
+			{
 				// optimize individual data
 				memoryOptimizer.optimize(list.get(i), context);
 			}
@@ -31,10 +37,12 @@ public class ArrayListOptimizer implements DataTypeOptimizer {
 		return list;
 	}
 
-	private Object getCachedArrayList(Field field, ArrayList<?> list) {
+	private Object getCachedArrayList(Field field, ArrayList<?> list)
+	{
 		String fieldName = OptimizerHelper.getFieldName(field);
 		Object object = ARRAY_LIST_POOL.get(fieldName);
-		if (null == object) {
+		if (null == object)
+		{
 			// prepare list and add to cache
 			list.trimToSize();
 			object = list;
@@ -44,7 +52,8 @@ public class ArrayListOptimizer implements DataTypeOptimizer {
 	}
 
 	@Override
-	public void init(DataTypeMemoryOptimizer memoryOptimizer) {
+	public void init(DataTypeMemoryOptimizer memoryOptimizer)
+	{
 		this.memoryOptimizer = memoryOptimizer;
 	}
 

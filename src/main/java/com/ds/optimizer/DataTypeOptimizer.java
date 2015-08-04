@@ -2,7 +2,8 @@ package com.ds.optimizer;
 
 import java.lang.reflect.Field;
 
-public interface DataTypeOptimizer {
+public interface DataTypeOptimizer
+{
 
 	/**
 	 * @param field

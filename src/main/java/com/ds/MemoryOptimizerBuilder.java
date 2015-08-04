@@ -10,14 +10,16 @@ import com.ds.optimizer.DataTypeOptimizer;
 import com.ds.optimizer.DataTypeOptimizerProvider;
 import com.ds.service.DSMemoryOptimizer;
 
-public class MemoryOptimizerBuilder {
+public class MemoryOptimizerBuilder
+{
 
 	private Map<Class<? extends Object>, DataTypeOptimizer> optimizers = new HashMap<Class<? extends Object>, DataTypeOptimizer>();
 	private List<DataTypeOptimizerProvider> optimizerProviders = new ArrayList<DataTypeOptimizerProvider>();
 
 	private Logger logger = Logger.getLogger("MemoryOptimizer");
 
-	public void setLogger(Logger logger) {
+	public void setLogger(Logger logger)
+	{
 		this.logger = logger;
 	}
 
@@ -28,29 +30,29 @@ public class MemoryOptimizerBuilder {
 	 *            optimizer for the field
 	 * @return
 	 */
-	public MemoryOptimizerBuilder addOptimizer(Class<?> dataType,
-			DataTypeOptimizer optimizer) {
+	public MemoryOptimizerBuilder addOptimizer(Class<?> dataType, DataTypeOptimizer optimizer)
+	{
 		optimizers.put(dataType, optimizer);
 		return this;
 	}
 
-	public MemoryOptimizer build() {
+	public MemoryOptimizer build()
+	{
 		Map<Class<? extends Object>, DataTypeOptimizer> finalOptimizers = new HashMap<Class<? extends Object>, DataTypeOptimizer>();
-		for (DataTypeOptimizerProvider dataTypeOptimizerProvider : optimizerProviders) {
-			finalOptimizers.putAll(dataTypeOptimizerProvider
-					.getDataTypeOptimizers());
+		for (DataTypeOptimizerProvider dataTypeOptimizerProvider : optimizerProviders)
+		{
+			finalOptimizers.putAll(dataTypeOptimizerProvider.getDataTypeOptimizers());
 		}
 
 		// override with individual optimizer
 		finalOptimizers.putAll(optimizers);
 
-		DSMemoryOptimizer dsMemoryOptimizer = new DSMemoryOptimizer(
-				finalOptimizers, logger);
+		DSMemoryOptimizer dsMemoryOptimizer = new DSMemoryOptimizer(finalOptimizers, logger);
 		return dsMemoryOptimizer;
 	}
 
-	public void addOptimizerProvider(
-			DataTypeOptimizerProvider dataTypeOptimizerProvider) {
+	public void addOptimizerProvider(DataTypeOptimizerProvider dataTypeOptimizerProvider)
+	{
 		optimizerProviders.add(dataTypeOptimizerProvider);
 	}
 }

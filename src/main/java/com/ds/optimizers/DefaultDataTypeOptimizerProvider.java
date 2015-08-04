@@ -8,11 +8,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.ds.optimizer.DataTypeOptimizer;
 import com.ds.optimizer.DataTypeOptimizerProvider;
 
-public class DefaultDataTypeOptimizerProvider implements
-		DataTypeOptimizerProvider {
+public class DefaultDataTypeOptimizerProvider implements DataTypeOptimizerProvider
+{
 
 	@Override
-	public Map<Class<? extends Object>, DataTypeOptimizer> getDataTypeOptimizers() {
+	public Map<Class<? extends Object>, DataTypeOptimizer> getDataTypeOptimizers()
+	{
 		Map<Class<? extends Object>, DataTypeOptimizer> optimizers = new HashMap<Class<? extends Object>, DataTypeOptimizer>();
 		// default optimizers
 		optimizers.put(ArrayList.class, new ArrayListOptimizer());

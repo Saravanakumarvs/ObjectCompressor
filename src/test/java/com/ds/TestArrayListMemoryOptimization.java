@@ -10,13 +10,14 @@ import org.junit.Test;
 
 import com.ds.optimizers.DefaultDataTypeOptimizerProvider;
 
-public class TestArrayListMemoryOptimization extends TestCase {
+public class TestArrayListMemoryOptimization extends TestCase
+{
 
 	@Test
-	public void testCheckForResusingOfEmptyArrayList() {
+	public void testCheckForResusingOfEmptyArrayList()
+	{
 		MemoryOptimizerBuilder optimizerBuilder = new MemoryOptimizerBuilder();
-		optimizerBuilder
-				.addOptimizerProvider(new DefaultDataTypeOptimizerProvider());
+		optimizerBuilder.addOptimizerProvider(new DefaultDataTypeOptimizerProvider());
 		MemoryOptimizer memoryOptimizer = optimizerBuilder.build();
 		A a = new A();
 		a.list = new ArrayList();
@@ -28,10 +29,10 @@ public class TestArrayListMemoryOptimization extends TestCase {
 	}
 
 	@Test
-	public void testCheckForNotResusingArrayListHavingData() {
+	public void testCheckForNotResusingArrayListHavingData()
+	{
 		MemoryOptimizerBuilder optimizerBuilder = new MemoryOptimizerBuilder();
-		optimizerBuilder
-				.addOptimizerProvider(new DefaultDataTypeOptimizerProvider());
+		optimizerBuilder.addOptimizerProvider(new DefaultDataTypeOptimizerProvider());
 		MemoryOptimizer memoryOptimizer = optimizerBuilder.build();
 		A a = new A();
 		a.list = new ArrayList();
@@ -44,10 +45,10 @@ public class TestArrayListMemoryOptimization extends TestCase {
 	}
 
 	@Test
-	public void testCheckForReleasingUnusedSpaceInArrayList() throws Exception {
+	public void testCheckForReleasingUnusedSpaceInArrayList() throws Exception
+	{
 		MemoryOptimizerBuilder optimizerBuilder = new MemoryOptimizerBuilder();
-		optimizerBuilder
-				.addOptimizerProvider(new DefaultDataTypeOptimizerProvider());
+		optimizerBuilder.addOptimizerProvider(new DefaultDataTypeOptimizerProvider());
 		MemoryOptimizer memoryOptimizer = optimizerBuilder.build();
 		A a = new A();
 		a.list = new ArrayList(16);
@@ -61,10 +62,10 @@ public class TestArrayListMemoryOptimization extends TestCase {
 	}
 
 	@Test
-	public void testCheckForNotResusingArrayListHavingDifferentType() {
+	public void testCheckForNotResusingArrayListHavingDifferentType()
+	{
 		MemoryOptimizerBuilder optimizerBuilder = new MemoryOptimizerBuilder();
-		optimizerBuilder
-				.addOptimizerProvider(new DefaultDataTypeOptimizerProvider());
+		optimizerBuilder.addOptimizerProvider(new DefaultDataTypeOptimizerProvider());
 		MemoryOptimizer memoryOptimizer = optimizerBuilder.build();
 		C c = new C();
 		c.list = new ArrayList<Integer>();
@@ -76,10 +77,10 @@ public class TestArrayListMemoryOptimization extends TestCase {
 	}
 
 	@Test
-	public void testCheckForResusingArrayListHavingDifferentTypeGeneric() {
+	public void testCheckForResusingArrayListHavingDifferentTypeGeneric()
+	{
 		MemoryOptimizerBuilder optimizerBuilder = new MemoryOptimizerBuilder();
-		optimizerBuilder
-				.addOptimizerProvider(new DefaultDataTypeOptimizerProvider());
+		optimizerBuilder.addOptimizerProvider(new DefaultDataTypeOptimizerProvider());
 		MemoryOptimizer memoryOptimizer = optimizerBuilder.build();
 		G<Integer> g1 = new G<Integer>();
 		g1.list = new ArrayList<Integer>();
@@ -90,23 +91,28 @@ public class TestArrayListMemoryOptimization extends TestCase {
 		assertSame(g1.list, g2.list);
 	}
 
-	class A {
+	class A
+	{
 		List list;
 	}
 
-	class B {
+	class B
+	{
 		List list;
 	}
 
-	class C {
+	class C
+	{
 		List<Integer> list;
 	}
 
-	class D {
+	class D
+	{
 		List<Double> list;
 	}
 
-	class G<T> {
+	class G<T>
+	{
 		List<T> list;
 	}
 
