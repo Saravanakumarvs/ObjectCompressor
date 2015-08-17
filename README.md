@@ -76,3 +76,8 @@ public class TestMemoryUsageForObject extends TestCase
 ##### My cache object has read attributes and read/write attributes, ExcludeDataTypeOptimizer annotation has been applied for the read/write attributes.
 
 
+$ git clone https://github.com/Saravanakumarvs/ObjectCompressor
+$ cd ObjectCompressor
+$ mvn package
+$ cd target
+$ dir
