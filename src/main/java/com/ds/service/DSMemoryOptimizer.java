@@ -46,14 +46,19 @@ public class DSMemoryOptimizer implements DataTypeMemoryOptimizer
 			}
 		}
 		return obj;
-
 	}
 
-	public void optimize(Object obj, Context context)
+	public Object optimize(Object obj, Context context)
 	{
 		if (needsToSkipObject(obj))
-			return;
+			return obj;
 		context.add(obj);
+		Class<? extends Object> klass = obj.getClass();
+		DataTypeOptimizer optimizer = optimizers.get(klass);
+		if (null != optimizer)
+		{
+			return optimizer.optimize(null, obj, context);
+		}
 		Field[] fields = OptimizerHelper.getAllFields(obj);
 		for (Field field : fields)
 		{
@@ -67,6 +72,7 @@ public class DSMemoryOptimizer implements DataTypeMemoryOptimizer
 				logger.log(Level.SEVERE, "Optimization of field failed :" + field, t);
 			}
 		}
+		return obj;
 	}
 
 	private void optimize(Object obj, Field field, Context context) throws IllegalArgumentException, IllegalAccessException

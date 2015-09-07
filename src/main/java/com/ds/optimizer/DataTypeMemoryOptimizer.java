@@ -4,5 +4,5 @@ import com.ds.MemoryOptimizer;
 
 public interface DataTypeMemoryOptimizer extends MemoryOptimizer
 {
-	public void optimize(Object obj, Context context);
+	Object optimize(Object obj, Context context);
 }

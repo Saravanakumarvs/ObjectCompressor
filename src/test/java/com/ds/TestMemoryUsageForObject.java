@@ -22,25 +22,22 @@ public class TestMemoryUsageForObject extends TestCase
 		{
 			list.add(new Parent());
 		}
-		System.out.println("Object created");
+		System.out.print("Object created in ");
 		System.out.println(TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - nanoTime));
 		Runtime runtime = Runtime.getRuntime();
 		long heapSize = runtime.totalMemory() - runtime.freeMemory();
 		System.gc();
-		TimeUnit.SECONDS.sleep(15);
+		TimeUnit.SECONDS.sleep(5);
 		nanoTime = System.nanoTime();
 		System.out.println("Optimizing");
 		MemoryOptimizerBuilder optimizerBuilder = new MemoryOptimizerBuilder();
 		optimizerBuilder.addOptimizerProvider(new DefaultDataTypeOptimizerProvider());
 		MemoryOptimizer memoryOptimizer = optimizerBuilder.build();
-		for (Object object : list)
-		{
-			memoryOptimizer.optimize(object);
-		}
+		memoryOptimizer.optimize(list);
 		System.out.println(TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - nanoTime));
-		System.out.println("Optimizen completed");
+		System.out.println("Optimizion completed");
 		System.gc();
-		TimeUnit.SECONDS.sleep(15);
+		TimeUnit.SECONDS.sleep(5);
 		System.out.println(runtime.totalMemory() + " : " + heapSize);
 		assertTrue((runtime.totalMemory() - runtime.freeMemory()) < (heapSize) / 2);
 	}

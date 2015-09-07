@@ -17,7 +17,7 @@ public class ArrayListOptimizer implements DataTypeOptimizer
 
 	public Object optimize(Field field, Object value, Context context)
 	{
-		ArrayList<?> list = (ArrayList<?>) value;
+		ArrayList<Object> list = (ArrayList<Object>) value;
 		int size = list.size();
 		if (0 == size)
 		{
@@ -31,7 +31,7 @@ public class ArrayListOptimizer implements DataTypeOptimizer
 			for (int i = 0; i < size; i++)
 			{
 				// optimize individual data
-				memoryOptimizer.optimize(list.get(i), context);
+				list.set(i,memoryOptimizer.optimize(list.get(i), context));
 			}
 		}
 		return list;

@@ -20,12 +20,12 @@ public abstract class OptimizerHelper
 	// return generic name of the based on field type
 	public static String getFieldName(Field field)
 	{
-		Type genericType = field.getGenericType();
 		StringBuilder genericName = new StringBuilder("");
 		// if its generic validate for parameterized type and form real field
 		// name.
-		if (genericType instanceof ParameterizedType)
+		if (null != field && field.getGenericType() instanceof ParameterizedType)
 		{
+			Type genericType = field.getGenericType();
 			ParameterizedType parameterizedType = (ParameterizedType) genericType;
 			for (Type type : parameterizedType.getActualTypeArguments())
 			{

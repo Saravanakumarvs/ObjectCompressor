@@ -27,6 +27,18 @@ public class TestArrayListMemoryOptimization extends TestCase
 		memoryOptimizer.optimize(b);
 		assertSame(a.list, b.list);
 	}
+	@Test
+	public void testCheckForResusingOfEmptyArrayListInArrayList()
+	{
+		MemoryOptimizerBuilder optimizerBuilder = new MemoryOptimizerBuilder();
+		optimizerBuilder.addOptimizerProvider(new DefaultDataTypeOptimizerProvider());
+		MemoryOptimizer memoryOptimizer = optimizerBuilder.build();
+		ArrayList list = new ArrayList();
+		list.add(new ArrayList());
+		list.add(new ArrayList());
+		memoryOptimizer.optimize(list);
+		assertSame(list.get(0), list.get(1));
+	}
 
 	@Test
 	public void testCheckForNotResusingArrayListHavingData()
