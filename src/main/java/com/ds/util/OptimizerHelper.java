@@ -16,9 +16,26 @@ public abstract class OptimizerHelper
 
 	// can be static, As class can not be redefined.
 	private static Map<Class<? extends Object>, Field[]> fieldCache = new ConcurrentHashMap<Class<? extends Object>, Field[]>();
-
-	// return generic name of the based on field type
+	private static Map<Field, String> fieldNameCache = new ConcurrentHashMap<Field, String>(){
+		public String get(Object key) {
+			if(null ==key)
+				return "";
+			return super.get(key);
+		};
+	};
 	public static String getFieldName(Field field)
+	{
+		String genericName = fieldNameCache.get(field);
+		if(null == genericName)
+		{
+			genericName = buildFieldName(field);
+			fieldNameCache.put(field, genericName);
+		}
+		return genericName;
+	}
+	
+	// return generic name of the based on field type
+	public static String buildFieldName(Field field)
 	{
 		StringBuilder genericName = new StringBuilder("");
 		// if its generic validate for parameterized type and form real field
@@ -35,7 +52,7 @@ public abstract class OptimizerHelper
 		return genericName.toString();
 	}
 
-	private static final Set<Class<?>> WRAPPED_TYPES = new HashSet<Class<?>>();
+	private static final Set<Class<?>> WRAPPED_TYPES = new HashSet<Class<?>>(64);
 	static
 	{
 		WRAPPED_TYPES.add(Boolean.class);

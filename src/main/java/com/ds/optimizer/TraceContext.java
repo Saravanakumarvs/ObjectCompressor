@@ -1,23 +1,23 @@
 package com.ds.optimizer;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.IdentityHashMap;
+import java.util.Map;
 
 public class TraceContext implements Context
 {
 
-	private Set<Integer> traceId = new HashSet<Integer>();
+	private Map<Object,Object> traceId = new IdentityHashMap<Object,Object>(1<<16);
 
 	@Override
 	public boolean contains(Object object)
 	{
-		return traceId.contains(System.identityHashCode(object));
+		return traceId.containsKey(object);
 	}
 
 	@Override
 	public void add(Object object)
 	{
-		traceId.add(System.identityHashCode(object));
+		traceId.put(object,null);
 	}
 
 }

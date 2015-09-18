@@ -2,6 +2,8 @@ package com.ds.optimizers;
 
 import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.ds.optimizer.Context;
@@ -11,17 +13,17 @@ import com.ds.util.OptimizerHelper;
 
 public class HashMapOptimizer implements DataTypeOptimizer
 {
-	private Map<String, Map<?, ?>> MAP_POOL = new ConcurrentHashMap<String, Map<?, ?>>();
+	private Map<String, Map<Object,Object>> MAP_POOL = new ConcurrentHashMap<String, Map<Object,Object>>();
 	private DataTypeMemoryOptimizer memoryOptimizer;
 
 	public Object optimize(Field field, Object value, Context context)
 	{
-		Map<?, ?> map = (Map<?, ?>) value;
+		Map<Object,Object> map = (Map<Object,Object>) value;
 		if (0 == map.size())
 		{
 			// if map is not having data then get it from pool.
 			String fieldName = OptimizerHelper.getFieldName(field);
-			Map<?, ?> cachedMap = MAP_POOL.get(fieldName);
+			Map<Object,Object> cachedMap = MAP_POOL.get(fieldName);
 			if (null == cachedMap)
 			{
 				cachedMap = map;
@@ -32,11 +34,14 @@ public class HashMapOptimizer implements DataTypeOptimizer
 		}
 		else
 		{
+			Set<Entry<Object,Object>> entrySet = map.entrySet();
 			// optimize individual key and its value
-			for (Object obj : map.values())
+			for (Entry<Object,Object> entry : entrySet)
 			{
-				memoryOptimizer.optimize(obj, context);
+				Object object = entry.getValue();
+				entry.setValue(memoryOptimizer.optimize(object, context));
 			}
+			//do not optimize the root of key it may affect the hashcode.
 			for (Object obj : map.keySet())
 			{
 				memoryOptimizer.optimize(obj, context);

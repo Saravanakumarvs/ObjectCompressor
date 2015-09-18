@@ -40,7 +40,8 @@ public class DSMemoryOptimizer implements DataTypeMemoryOptimizer
 			{
 				obj = optimizer.optimize(null, obj, context);
 			}
-			else if (null != klass.getCanonicalName())
+			//canonical name is causing bottleneck and creating huge object creation in TLAB
+			else if (null!=klass.getName()/* null != klass.getCanonicalName()*/)
 			{
 				optimize(obj, context);
 			}
@@ -88,7 +89,8 @@ public class DSMemoryOptimizer implements DataTypeMemoryOptimizer
 				Object optimizedValue = optimizer.optimize(field, value, context);
 				field.set(obj, optimizedValue);
 			}
-			else if (null != klass.getCanonicalName())
+			//canonical name is causing bottleneck and creating huge object creation in TLAB
+			else if (null!=klass.getName()/* null != klass.getCanonicalName()*/)
 			{
 				optimize(value, context);
 			}
