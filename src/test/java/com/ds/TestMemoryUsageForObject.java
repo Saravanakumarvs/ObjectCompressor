@@ -19,15 +19,15 @@ public class TestMemoryUsageForObject extends TestCase
 {
 
 	private static final int threadCount = 4;
-	private static final int size = threadCount * 100000;
-	List list = new ArrayList(size);
+	private static final int size = threadCount * 10000000;
+	List<Parent> list = new ArrayList<Parent>(size);
 
 	public void testCheckForMemoryUsage() throws Exception
 	{
 		Field field = ArrayList.class.getDeclaredField("size");
 		field.setAccessible(true);
 		field.setInt(list, size);
-		ExecutorService service = Executors.newFixedThreadPool(5);
+		ExecutorService service = Executors.newFixedThreadPool(threadCount);
 		long startTime = System.nanoTime();
 		final int count = size / threadCount;
 		final AtomicInteger integer = new AtomicInteger();

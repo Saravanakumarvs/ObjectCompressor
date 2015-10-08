@@ -38,16 +38,16 @@ public class MemoryOptimizerBuilder
 
 	public MemoryOptimizer build()
 	{
-		Map<Class<? extends Object>, DataTypeOptimizer> finalOptimizers = new HashMap<Class<? extends Object>, DataTypeOptimizer>();
+		Map<Class<? extends Object>, DataTypeOptimizer> selectedOptimizers = new HashMap<Class<? extends Object>, DataTypeOptimizer>();
 		for (DataTypeOptimizerProvider dataTypeOptimizerProvider : optimizerProviders)
 		{
-			finalOptimizers.putAll(dataTypeOptimizerProvider.getDataTypeOptimizers());
+			selectedOptimizers.putAll(dataTypeOptimizerProvider.getDataTypeOptimizers());
 		}
 
 		// override with individual optimizer
-		finalOptimizers.putAll(optimizers);
+		selectedOptimizers.putAll(optimizers);
 
-		DSMemoryOptimizer dsMemoryOptimizer = new DSMemoryOptimizer(finalOptimizers, logger);
+		DSMemoryOptimizer dsMemoryOptimizer = new DSMemoryOptimizer(selectedOptimizers, logger);
 		return dsMemoryOptimizer;
 	}
 

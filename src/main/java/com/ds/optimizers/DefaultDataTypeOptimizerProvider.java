@@ -2,6 +2,7 @@ package com.ds.optimizers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,6 +19,7 @@ public class DefaultDataTypeOptimizerProvider implements DataTypeOptimizerProvid
 		// default optimizers
 		optimizers.put(ArrayList.class, new ArrayListOptimizer());
 		optimizers.put(HashMap.class, new HashMapOptimizer());
+		optimizers.put(LinkedHashMap.class, new HashMapOptimizer());
 		optimizers.put(ConcurrentHashMap.class, new HashMapOptimizer());
 		// Optimizer stringOptimizer = (field, object, trace) -> {
 		// return ((String) object).intern();
